@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 
@@ -30,6 +31,7 @@ export async function updateGuest(formData) {
     console.log(error);
     throw new Error("Guest could not be updated");
   }
+  revalidatePath("/account/profile");
 }
 
 // server action because we cannot run signIn from client side button
