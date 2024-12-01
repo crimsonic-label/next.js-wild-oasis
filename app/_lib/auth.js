@@ -30,7 +30,7 @@ const authConfig = {
     async session({ session, user }) {
       // add guest id to the session
       const guest = await getGuest(session.user.email);
-      session.user.guestId = guest.guestId;
+      session.user.guestId = guest.id;
       return session;
     },
   },

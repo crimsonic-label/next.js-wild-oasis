@@ -1,6 +1,36 @@
 "use server";
 
-import { signIn, signOut } from "./auth";
+import { auth, signIn, signOut } from "./auth";
+import { supabase } from "./supabase";
+
+export async function updateGuest(formData) {
+  const session = await auth();
+  if (!session) throw new Error("Ypu must be logged in");
+
+  const nationalID = formData.get("nationalID");
+  const [nationality, countryFlag] = formData.get("nationality").split("%");
+
+  if (!/^[a-zA-Z0-9]{6,12}$/.test(nationalID))
+    throw new Error("Please provide a valid national ID");
+
+  const updateData = {
+    nationality,
+    country_flag: countryFlag,
+    national_id: nationalID,
+  };
+
+  console.log("session.user", session.user);
+
+  const { data, error } = await supabase
+    .from("guests")
+    .update(updateData)
+    .eq("id", session.user.guestId);
+
+  if (error) {
+    console.log(error);
+    throw new Error("Guest could not be updated");
+  }
+}
 
 // server action because we cannot run signIn from client side button
 export async function signInAction() {
