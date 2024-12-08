@@ -6,8 +6,6 @@ function UpdateReservationForm({ booking, cabin }) {
   const { id: reservationId, num_guests: numGuests, observations } = booking;
   const maxCapacity = cabin.max_capacity;
 
-  console.log("Observations: ", observations);
-
   return (
     <div>
       <h2 className="font-semibold text-2xl text-accent-400 mb-7">

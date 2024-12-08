@@ -7,7 +7,6 @@ import Cabin from "@/app/_components/Cabin";
 
 export async function generateMetadata({ params }) {
   const { name } = await getCabin(params.cabinId);
-  console.log(name);
   return {
     title: `Cabin ${name}`,
   };
